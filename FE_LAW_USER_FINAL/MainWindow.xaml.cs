@@ -56,7 +56,16 @@ namespace FE_LAW_USER_FINAL {
 
         public void initClause()
         {
-            string query = "SELECT clause FROM Law";
+            string query;
+            if (articleSearch == null)
+            {
+                query = "SELECT clause FROM Law ";
+            }
+            else
+            {
+                query = "SELECT clause FROM Law WHERE article=" + articleSearch;
+            }
+            
             conn.Open();
             cmd1.CommandText = query;
             cmd1.Connection = conn;
@@ -97,17 +106,13 @@ namespace FE_LAW_USER_FINAL {
                     listBox.Items.Add(newT);
                 }
                 conn.Close();
-            
+
         }
 
         private void articleCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem typeItem = (ComboBoxItem)articleCombobox.SelectedItem;
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable CS8601 // Possible null reference assignment.
             articleSearch = typeItem.Content.ToString();
-#pragma warning restore CS8601 // Possible null reference assignment.
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             string query = "SELECT * FROM Law WHERE article=" + articleSearch;
             conn.Open();
             cmd.CommandText = query;
@@ -126,6 +131,7 @@ namespace FE_LAW_USER_FINAL {
             }
             conn.Close();
             clauseCombobox.IsEnabled = true;
+            //initClause();
         }
 
         private void clauseCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
