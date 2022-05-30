@@ -82,23 +82,22 @@ namespace FE_LAW_USER_FINAL {
                 return;
             }
 
-            string query = "SELECT * FROM Law WHERE article_content LIKE '%" + _searchText + "%'" + "OR clause_content LIKE'%" + _searchText + "%'";
-            conn.Open();
-            cmd.CommandText = query;
-            cmd.Connection = conn;
-            adapter.SelectCommand = cmd;
-            SQLiteDataReader reader = cmd.ExecuteReader();
-            listBox.Items.Clear();
-            while (reader.Read())
-            {
-                TextBlock newT = new TextBlock();
-                Border border = new Border();
-                border.BorderThickness = new Thickness(1);
-                newT.Text = String.Format("Điều: {0} \nNội dung điều: {1} \nKhoản: {2} \nNội dung khoản: {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
-                listBox.Items.Add(newT);
-                listBox.Items.Add(border);
-            }
-            conn.Close();
+                string query = "SELECT * FROM Law WHERE article_content LIKE '%" + _searchText + "%'" + "OR clause_content LIKE'%" + _searchText + "%'";
+                conn.Open();
+                cmd.CommandText = query;
+                cmd.Connection = conn;
+                adapter.SelectCommand = cmd;
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                listBox.Items.Clear();
+
+                while (reader.Read())
+                {
+                    TextBlock newT = new TextBlock();
+                    newT.Text = String.Format("Điều: {0} \nNội dung điều: {1} \nKhoản: {2} \nNội dung khoản: {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
+                    listBox.Items.Add(newT);
+                }
+                conn.Close();
+            
         }
 
         private void articleCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)

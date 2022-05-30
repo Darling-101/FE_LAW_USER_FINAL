@@ -45,7 +45,7 @@
         <ComboBox
             materialDesign:HintAssist.Hint="Điều"
             materialDesign:HintAssist.HintOpacity="0.7"
-            IsEditable="True" Margin="32,53,0,0"
+             Margin="32,53,0,0"
             VerticalAlignment="Top"
             HorizontalAlignment="Left" Width="90"
             x:Name="articleCombobox" SelectionChanged="articleCombobox_SelectionChanged"
@@ -54,7 +54,7 @@
         <ComboBox
             materialDesign:HintAssist.Hint="Khoản"
             materialDesign:HintAssist.HintOpacity="0.7"
-            IsEditable="True" Margin="171,53,723,0" 
+            Margin="171,53,723,0" 
             VerticalAlignment="Top"
             x:Name="clauseCombobox"
             Width="90"
