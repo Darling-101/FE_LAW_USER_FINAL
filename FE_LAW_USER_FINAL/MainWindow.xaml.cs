@@ -33,6 +33,7 @@ namespace FE_LAW_USER_FINAL {
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             initArticle();
             initClause();
+            clauseCombobox.IsEnabled = false;
         }
         public void initArticle()
         {
@@ -81,7 +82,7 @@ namespace FE_LAW_USER_FINAL {
                 return;
             }
 
-            string query = "SELECT * FROM Law";
+            string query = "SELECT * FROM Law WHERE article_content LIKE '%" + _searchText + "%'" + "OR clause_content LIKE'%" + _searchText + "%'";
             conn.Open();
             cmd.CommandText = query;
             cmd.Connection = conn;
@@ -104,7 +105,9 @@ namespace FE_LAW_USER_FINAL {
         {
             ComboBoxItem typeItem = (ComboBoxItem)articleCombobox.SelectedItem;
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-            string articleSearch = typeItem.Content.ToString();
+#pragma warning disable CS8601 // Possible null reference assignment.
+            articleSearch = typeItem.Content.ToString();
+#pragma warning restore CS8601 // Possible null reference assignment.
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             string query = "SELECT * FROM Law WHERE article=" + articleSearch;
             conn.Open();
@@ -123,20 +126,19 @@ namespace FE_LAW_USER_FINAL {
                 listBox.Items.Add(border);
             }
             conn.Close();
+            clauseCombobox.IsEnabled = true;
         }
 
         private void clauseCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem typeItem = (ComboBoxItem)clauseCombobox.SelectedItem;
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-            string clauseSearch = typeItem.Content.ToString();
+#pragma warning disable CS8601 // Possible null reference assignment.
+            clauseSearch = typeItem.Content.ToString();
+#pragma warning restore CS8601 // Possible null reference assignment.
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-            if (articleSearch == null)
-            {
-                MessageBox.Show("Vui lòng chọn điều");
-                return;
-            }
-            string query = "SELECT * FROM Law WHERE article=" + articleSearch + "AND clause=" + clauseSearch;
+
+            string query = "SELECT * FROM Law WHERE article="+ articleSearch + " AND clause=" + clauseSearch;
             conn.Open();
             cmd.CommandText = query;
             cmd.Connection = conn;
