@@ -27,7 +27,9 @@ namespace FE_LAW_USER_FINAL {
         SQLiteCommand cmd1 = new SQLiteCommand();
         SQLiteDataAdapter adapter = new SQLiteDataAdapter();
         private string clauseSearch, articleSearch;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public MainWindow()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
@@ -130,36 +132,35 @@ namespace FE_LAW_USER_FINAL {
                 listBox.Items.Add(border);
             }
             conn.Close();
-            clauseCombobox.IsEnabled = true;
-            //initClause();
+            initClause();
+            clauseCombobox.IsEnabled = true;          
         }
 
         private void clauseCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem typeItem = (ComboBoxItem)clauseCombobox.SelectedItem;
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable CS8601 // Possible null reference assignment.
-            clauseSearch = typeItem.Content.ToString();
-#pragma warning restore CS8601 // Possible null reference assignment.
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-
-            string query = "SELECT * FROM Law WHERE article="+ articleSearch + " AND clause=" + clauseSearch;
-            conn.Open();
-            cmd.CommandText = query;
-            cmd.Connection = conn;
-            adapter.SelectCommand = cmd;
-            SQLiteDataReader reader = cmd.ExecuteReader();
-            listBox.Items.Clear();
-            while (reader.Read())
+            if(typeItem != null)
             {
-                TextBlock newT = new TextBlock();
-                Border border = new Border();
-                border.BorderThickness = new Thickness(1);
-                newT.Text = String.Format("Điều: {0} \nNội dung điều: {1} \nKhoản: {2} \nNội dung khoản: {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
-                listBox.Items.Add(newT);
-                listBox.Items.Add(border);
+                clauseSearch = typeItem.Content.ToString();
+
+                string query = "SELECT * FROM Law WHERE article=" + articleSearch + " AND clause=" + clauseSearch;
+                conn.Open();
+                cmd.CommandText = query;
+                cmd.Connection = conn;
+                adapter.SelectCommand = cmd;
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                listBox.Items.Clear();
+                while (reader.Read())
+                {
+                    TextBlock newT = new TextBlock();
+                    Border border = new Border();
+                    border.BorderThickness = new Thickness(1);
+                    newT.Text = String.Format("Điều: {0} \nNội dung điều: {1} \nKhoản: {2} \nNội dung khoản: {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
+                    listBox.Items.Add(newT);
+                    listBox.Items.Add(border);
+                }
+                conn.Close();
             }
-            conn.Close();
         }
     }
 }
