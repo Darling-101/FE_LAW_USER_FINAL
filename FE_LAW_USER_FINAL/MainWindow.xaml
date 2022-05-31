@@ -13,7 +13,7 @@
      TextOptions.TextRenderingMode="Auto"
      Background="{DynamicResource MaterialDesignPaper}"
      FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="MainWindow" Height="500" Width="1000">
+        Title="MainWindow" Height="800" Width="1000">
     <Grid>
         <TextBox
                 x:Name="searchBox"
@@ -62,7 +62,7 @@
             >
         </ComboBox>
         <materialDesign:Card Margin="10,105,10,10" Padding="10">
-            <ListView x:Name="listBox"/>
+            <ListView x:Name="listBox" />
         </materialDesign:Card>
 
     </Grid>

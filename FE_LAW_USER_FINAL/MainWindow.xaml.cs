@@ -21,7 +21,7 @@ namespace FE_LAW_USER_FINAL {
     /// </summary>
     /// 
     public partial class MainWindow : Window {
-        public const string dbcon = @"Data Source=C:\Users\20010844\source\repos\FE_LAW_FINAL\FE_LAW_FINAL\testDB.db";
+        public const string dbcon = @"Data Source=C:\Users\20010844\Desktop\law.db";
         SQLiteConnection conn = new SQLiteConnection(dbcon);
         SQLiteCommand cmd = new SQLiteCommand();
         SQLiteCommand cmd1 = new SQLiteCommand();
@@ -87,6 +87,7 @@ namespace FE_LAW_USER_FINAL {
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             String _searchText = searchBox.Text;
+            int count = 0;
             if(_searchText.Trim(' ') == "")
             {
                 MessageBox.Show("Vui lòng nhập từ khóa!!");
@@ -104,9 +105,19 @@ namespace FE_LAW_USER_FINAL {
                 while (reader.Read())
                 {
                     TextBlock newT = new TextBlock();
-                    newT.Text = String.Format("Điều: {0} \nNội dung điều: {1} \nKhoản: {2} \nNội dung khoản: {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
+                    count++;
+                    newT.TextWrapping = TextWrapping.WrapWithOverflow;
+                    newT.MaxWidth = 1450;
+                    newT.Text = String.Format("Điều: {0} \nNội dung điều:\n {1} \nKhoản: {2} \nNội dung khoản:\n {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
+                    
                     listBox.Items.Add(newT);
                 }
+                if(count == 0)
+                {
+                    TextBlock newT = new TextBlock();
+                    newT.Text = "Không tìm thấy thông tin này";
+                    listBox.Items.Add(newT);
+            }
                 conn.Close();
 
         }
@@ -125,11 +136,11 @@ namespace FE_LAW_USER_FINAL {
             while (reader.Read())
             {
                 TextBlock newT = new TextBlock();
-                Border border = new Border();
-                border.BorderThickness = new Thickness(1);
-                newT.Text = String.Format("Điều: {0} \nNội dung điều: {1} \nKhoản: {2} \nNội dung khoản: {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
+                newT.TextWrapping = TextWrapping.WrapWithOverflow;
+                newT.MaxWidth = 1450;
+                newT.Text = String.Format("Điều: {0} \nNội dung điều:\n {1} \nKhoản: {2} \nNội dung khoản:\n {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
+                
                 listBox.Items.Add(newT);
-                listBox.Items.Add(border);
             }
             conn.Close();
             initClause();
@@ -153,11 +164,10 @@ namespace FE_LAW_USER_FINAL {
                 while (reader.Read())
                 {
                     TextBlock newT = new TextBlock();
-                    Border border = new Border();
-                    border.BorderThickness = new Thickness(1);
-                    newT.Text = String.Format("Điều: {0} \nNội dung điều: {1} \nKhoản: {2} \nNội dung khoản: {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
+                    newT.TextWrapping = TextWrapping.WrapWithOverflow;
+                    newT.MaxWidth = 1450;
+                    newT.Text = String.Format("Điều: {0} \nNội dung điều:\n {1} \nKhoản: {2} \nNội dung khoản:\n {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
                     listBox.Items.Add(newT);
-                    listBox.Items.Add(border);
                 }
                 conn.Close();
             }
