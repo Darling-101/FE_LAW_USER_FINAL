@@ -23,8 +23,6 @@ namespace FE_LAW_USER_FINAL {
     public partial class MainWindow : Window {
         public const string dbcon = @"Data Source=C:\Users\20010844\Desktop\law.db";
         SQLiteConnection conn = new SQLiteConnection(dbcon);
-        SQLiteCommand cmd = new SQLiteCommand();
-        SQLiteCommand cmd1 = new SQLiteCommand();
         SQLiteDataAdapter adapter = new SQLiteDataAdapter();
         private string clauseSearch, articleSearch;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -39,7 +37,8 @@ namespace FE_LAW_USER_FINAL {
         }
         public void initArticle()
         {
-            string query = "SELECT article FROM Law";
+            string query = "SELECT DISTINCT article FROM Law";
+            SQLiteCommand cmd = new SQLiteCommand();
             conn.Open();
             cmd.CommandText = query;
             cmd.Connection = conn;
@@ -67,12 +66,12 @@ namespace FE_LAW_USER_FINAL {
             {
                 query = "SELECT clause FROM Law WHERE article=" + articleSearch;
             }
-            
+            SQLiteCommand cmd = new SQLiteCommand();
             conn.Open();
-            cmd1.CommandText = query;
-            cmd1.Connection = conn;
-            adapter.SelectCommand = cmd1;
-            SQLiteDataReader reader = cmd1.ExecuteReader();
+            cmd.CommandText = query;
+            cmd.Connection = conn;
+            adapter.SelectCommand = cmd;
+            SQLiteDataReader reader = cmd.ExecuteReader();
             clauseCombobox.Items.Clear();
             while (reader.Read())
             {
@@ -93,8 +92,8 @@ namespace FE_LAW_USER_FINAL {
                 MessageBox.Show("Vui lòng nhập từ khóa!!");
                 return;
             }
-
-                string query = "SELECT * FROM Law WHERE article_content LIKE '%" + _searchText + "%'" + "OR clause_content LIKE'%" + _searchText + "%'";
+            SQLiteCommand cmd = new SQLiteCommand();
+            string query = "SELECT * FROM Law WHERE article_content LIKE '%" + _searchText + "%'" + "OR clause_content LIKE'%" + _searchText + "%'";
                 conn.Open();
                 cmd.CommandText = query;
                 cmd.Connection = conn;
@@ -127,6 +126,7 @@ namespace FE_LAW_USER_FINAL {
             ComboBoxItem typeItem = (ComboBoxItem)articleCombobox.SelectedItem;
             articleSearch = typeItem.Content.ToString();
             string query = "SELECT * FROM Law WHERE article=" + articleSearch;
+            SQLiteCommand cmd = new SQLiteCommand();
             conn.Open();
             cmd.CommandText = query;
             cmd.Connection = conn;
@@ -155,11 +155,12 @@ namespace FE_LAW_USER_FINAL {
                 clauseSearch = typeItem.Content.ToString();
 
                 string query = "SELECT * FROM Law WHERE article=" + articleSearch + " AND clause=" + clauseSearch;
+                SQLiteCommand _cmd = new SQLiteCommand();
                 conn.Open();
-                cmd.CommandText = query;
-                cmd.Connection = conn;
-                adapter.SelectCommand = cmd;
-                SQLiteDataReader reader = cmd.ExecuteReader();
+                _cmd.CommandText = query;
+                _cmd.Connection = conn;
+                adapter.SelectCommand = _cmd;
+                SQLiteDataReader reader = _cmd.ExecuteReader();
                 listBox.Items.Clear();
                 while (reader.Read())
                 {
