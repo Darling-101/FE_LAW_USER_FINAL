@@ -24,7 +24,7 @@ namespace FE_LAW_USER_FINAL {
         public const string dbcon = @"Data Source=C:\Users\20010844\Desktop\law.db";
         SQLiteConnection conn = new SQLiteConnection(dbcon);
         SQLiteDataAdapter adapter = new SQLiteDataAdapter();
-        private string clauseSearch, articleSearch;
+        private int clauseSearch, articleSearch, pointSearch;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public MainWindow()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -34,10 +34,34 @@ namespace FE_LAW_USER_FINAL {
             initArticle();
             initClause();
             clauseCombobox.IsEnabled = false;
+            initShow();
+        }
+
+        public void initShow()
+        {
+            string query = "SELECT DISTINCT article, article_content  FROM Law";
+            SQLiteCommand cmd = new SQLiteCommand();
+            conn.Open();
+            cmd.CommandText = query;
+            cmd.Connection = conn;
+            adapter.SelectCommand = cmd;
+            SQLiteDataReader reader = cmd.ExecuteReader();
+            listBox.Items.Clear();
+            while (reader.Read())
+            {
+                if (reader[1].ToString() == "") continue;
+                TextBlock newT = new TextBlock();
+                newT.TextWrapping = TextWrapping.WrapWithOverflow;
+                newT.MaxWidth = 1450;
+                newT.Text = String.Format("Điều: {0} \nNội dung điều: {1}", reader[0], reader[1]);
+                
+                listBox.Items.Add(newT);
+            }
+            conn.Close();
         }
         public void initArticle()
         {
-            string query = "SELECT DISTINCT article FROM Law";
+            string query = "SELECT DISTINCT article FROM Law ORDER BY article ASC";
             SQLiteCommand cmd = new SQLiteCommand();
             conn.Open();
             cmd.CommandText = query;
@@ -60,11 +84,11 @@ namespace FE_LAW_USER_FINAL {
             string query;
             if (articleSearch == null)
             {
-                query = "SELECT clause FROM Law ";
+                query = "SELECT DISTINCT clause FROM Law ";
             }
             else
             {
-                query = "SELECT clause FROM Law WHERE article=" + articleSearch;
+                query = "SELECT DISTINCT clause FROM Law WHERE  clause > -1 AND article=" + articleSearch + " ORDER BY clause ASC";
             }
             SQLiteCommand cmd = new SQLiteCommand();
             conn.Open();
@@ -82,7 +106,6 @@ namespace FE_LAW_USER_FINAL {
             }
             conn.Close();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             String _searchText = searchBox.Text;
@@ -124,8 +147,8 @@ namespace FE_LAW_USER_FINAL {
         private void articleCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem typeItem = (ComboBoxItem)articleCombobox.SelectedItem;
-            articleSearch = typeItem.Content.ToString();
-            string query = "SELECT * FROM Law WHERE article=" + articleSearch;
+            articleSearch = Int32.Parse(typeItem.Content.ToString());
+            string query = "SELECT clause, clause_content FROM Law WHERE article=" + articleSearch;
             SQLiteCommand cmd = new SQLiteCommand();
             conn.Open();
             cmd.CommandText = query;
@@ -135,10 +158,11 @@ namespace FE_LAW_USER_FINAL {
             listBox.Items.Clear();
             while (reader.Read())
             {
+                if (reader[1].ToString() == "") continue;
                 TextBlock newT = new TextBlock();
                 newT.TextWrapping = TextWrapping.WrapWithOverflow;
                 newT.MaxWidth = 1450;
-                newT.Text = String.Format("Điều: {0} \nNội dung điều:\n {1} \nKhoản: {2} \nNội dung khoản:\n {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
+                newT.Text = String.Format("Khoản: {0} \nNội dung khoản: {1}", reader[0], reader[1]);
                 
                 listBox.Items.Add(newT);
             }
@@ -147,14 +171,26 @@ namespace FE_LAW_USER_FINAL {
             clauseCombobox.IsEnabled = true;          
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            initShow();
+        }
+
+        private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = this.listBox.SelectedIndex;
+            //MessageBox.Show();
+        }
+
         private void clauseCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem typeItem = (ComboBoxItem)clauseCombobox.SelectedItem;
+            
             if(typeItem != null)
             {
-                clauseSearch = typeItem.Content.ToString();
+                clauseSearch = Int32.Parse(typeItem.Content.ToString());
 
-                string query = "SELECT * FROM Law WHERE article=" + articleSearch + " AND clause=" + clauseSearch;
+                string query = "SELECT point, point_content FROM Law WHERE article=" + articleSearch + " AND clause=" + clauseSearch;
                 SQLiteCommand _cmd = new SQLiteCommand();
                 conn.Open();
                 _cmd.CommandText = query;
@@ -167,7 +203,7 @@ namespace FE_LAW_USER_FINAL {
                     TextBlock newT = new TextBlock();
                     newT.TextWrapping = TextWrapping.WrapWithOverflow;
                     newT.MaxWidth = 1450;
-                    newT.Text = String.Format("Điều: {0} \nNội dung điều:\n {1} \nKhoản: {2} \nNội dung khoản:\n {3} \nMức phạt trên: {4} \nMức phạt dưới: {5}", reader[1], reader[2], reader[3], reader[4], reader[5], reader[6]);
+                    newT.Text = String.Format("Điểm: {0} \nNội dung điểm: {1}", reader[0], reader[1]);
                     listBox.Items.Add(newT);
                 }
                 conn.Close();
