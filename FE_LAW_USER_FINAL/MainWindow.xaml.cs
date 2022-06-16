@@ -200,6 +200,7 @@ namespace FE_LAW_USER_FINAL {
                 listBox.Items.Clear();
                 while (reader.Read())
                 {
+                    if (reader[1].ToString() == "") continue;
                     TextBlock newT = new TextBlock();
                     newT.TextWrapping = TextWrapping.WrapWithOverflow;
                     newT.MaxWidth = 1450;
