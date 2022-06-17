@@ -13,26 +13,31 @@
      TextOptions.TextRenderingMode="Auto"
      Background="{DynamicResource MaterialDesignPaper}"
      FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Tra cứu" Height="800" Width="1000">
+     Title="Tra cứu" Height="800" Width="1000"
+     Icon="C:\Users\20010844\source\repos\FE_LAW_USER_FINAL\FE_LAW_USER_FINAL\balance.png"   
+        >
     <Grid>
-        <TextBox
+
+        <Border BorderThickness="1" BorderBrush="#b0f0f5" Background="#b0f0f5" CornerRadius="2" Height="87" VerticalAlignment="Top" Margin="10,10,10,0">
+            <Grid   VerticalAlignment="Top"  Height="87">
+                <TextBox
                 x:Name="searchBox"
-                Height="25"
+                Height="24"
                 Width="425"
                 materialDesign:HintAssist.Hint="Nhập từ khóa tím kiếm..." 
-                Margin="32,10,338,359" 
+                Margin="32,10,0,0" 
             VerticalAlignment="Top"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Left" 
             >
 
-            <TextBox.Text >
-                <Binding
+                    <TextBox.Text >
+                        <Binding
                         Path="Name"
                         UpdateSourceTrigger="PropertyChanged">
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <Button
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Button
             Style="{StaticResource MaterialDesignRaisedDarkButton}"
             ToolTip="Resource name: MaterialDesignRaisedLightDarkButton"
             Content="Tìm kiếm" 
@@ -42,32 +47,38 @@
             HorizontalAlignment="Left"
             Margin="481,13,217,0" 
             Click="Button_Click"/>
-        <ComboBox
+                <ComboBox
             materialDesign:HintAssist.Hint="Điều"
             materialDesign:HintAssist.HintOpacity="0.7"
              Margin="32,53,0,0"
             VerticalAlignment="Top"
-            HorizontalAlignment="Left" Width="90"
+            HorizontalAlignment="Left" Width="90" Height="25"
             x:Name="articleCombobox" SelectionChanged="articleCombobox_SelectionChanged"
             >
-        </ComboBox>
-        <ComboBox
+                </ComboBox>
+                <ComboBox
             materialDesign:HintAssist.Hint="Khoản"
             materialDesign:HintAssist.HintOpacity="0.7"
-            Margin="171,53,723,0" 
+            Margin="171,53,0,0" 
             VerticalAlignment="Top"
             x:Name="clauseCombobox"
-            Width="90"
+            Width="104"
+                Height="25"
             HorizontalAlignment="Left" SelectionChanged="clauseCombobox_SelectionChanged"
             >
-        </ComboBox>
+                </ComboBox>
+                <Button HorizontalAlignment="Left" Margin="318,53,0,0" VerticalAlignment="Top" Click="Button_Click_1" Height="25">
+                    <materialDesign:PackIcon Kind="Reload"/>
+                </Button>
+            </Grid>
+        </Border>
 
-        <materialDesign:Card Margin="10,105,10,10" Padding="10">
-            <ListView x:Name="listBox" ScrollViewer.CanContentScroll="False" SelectionChanged="listBox_SelectionChanged" />
-        </materialDesign:Card>
-        <Button HorizontalAlignment="Left" Margin="300,49,0,0" VerticalAlignment="Top" Click="Button_Click_1">
-            <materialDesign:PackIcon Kind="Reload"/>
-        </Button>
+        <Grid>
+            <materialDesign:Card Margin="10,105,10,10" Padding="10" >
+                <ListView x:Name="listBox" ScrollViewer.CanContentScroll="False"  SelectionChanged="listBox_SelectionChanged" />
+            </materialDesign:Card>
+        </Grid>
+
 
     </Grid>
 </Window>

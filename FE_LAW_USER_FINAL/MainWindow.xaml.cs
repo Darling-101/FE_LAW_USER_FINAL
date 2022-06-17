@@ -52,7 +52,7 @@ namespace FE_LAW_USER_FINAL {
                 if (reader[1].ToString() == "") continue;
                 TextBlock newT = new TextBlock();
                 newT.TextWrapping = TextWrapping.WrapWithOverflow;
-                newT.MaxWidth = 1450;
+                newT.MaxWidth = 1000;
                 newT.Text = String.Format("Điều: {0} \nNội dung điều: {1}", reader[0], reader[1]);
                 
                 listBox.Items.Add(newT);
@@ -206,6 +206,7 @@ namespace FE_LAW_USER_FINAL {
                     newT.MaxWidth = 1450;
                     newT.Text = String.Format("Điểm: {0} \nNội dung điểm: {1}", reader[0], reader[1]);
                     listBox.Items.Add(newT);
+                    
                 }
                 conn.Close();
             }
