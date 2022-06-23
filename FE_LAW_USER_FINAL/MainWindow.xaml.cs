@@ -73,6 +73,7 @@ namespace FE_LAW_USER_FINAL {
             {
                 TextBlock newT = new TextBlock();
                 ComboBoxItem item = new ComboBoxItem();
+                if (reader[0].ToString() == "0") continue;
                 item.Content = String.Format("{0}", reader[0]);
                 articleCombobox.Items.Add(item);
             }
