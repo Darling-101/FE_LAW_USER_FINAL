@@ -149,7 +149,7 @@ namespace FE_LAW_USER_FINAL {
         {
             ComboBoxItem typeItem = (ComboBoxItem)articleCombobox.SelectedItem;
             articleSearch = Int32.Parse(typeItem.Content.ToString());
-            string query = "SELECT clause, clause_content FROM Law WHERE article=" + articleSearch;
+            string query = "SELECT clause, clause_content, fine_above, fine_below FROM Law WHERE article=" + articleSearch;
             SQLiteCommand cmd = new SQLiteCommand();
             conn.Open();
             cmd.CommandText = query;
@@ -163,7 +163,7 @@ namespace FE_LAW_USER_FINAL {
                 TextBlock newT = new TextBlock();
                 newT.TextWrapping = TextWrapping.WrapWithOverflow;
                 newT.MaxWidth = 1450;
-                newT.Text = String.Format("Khoản: {0} \nNội dung khoản: {1}", reader[0], reader[1]);
+                newT.Text = String.Format("Khoản: {0} \nNội dung khoản: {1} \nMức phạt dưới: {2} \nMức phạt trên: {3}", reader[0], reader[1], reader[3], reader[2]);
                 
                 listBox.Items.Add(newT);
             }
@@ -191,7 +191,7 @@ namespace FE_LAW_USER_FINAL {
             {
                 clauseSearch = Int32.Parse(typeItem.Content.ToString());
 
-                string query = "SELECT point, point_content FROM Law WHERE article=" + articleSearch + " AND clause=" + clauseSearch;
+                string query = "SELECT point, point_content, fine_above, fine_below FROM Law WHERE article=" + articleSearch + " AND clause=" + clauseSearch;
                 SQLiteCommand _cmd = new SQLiteCommand();
                 conn.Open();
                 _cmd.CommandText = query;
@@ -205,7 +205,7 @@ namespace FE_LAW_USER_FINAL {
                     TextBlock newT = new TextBlock();
                     newT.TextWrapping = TextWrapping.WrapWithOverflow;
                     newT.MaxWidth = 1450;
-                    newT.Text = String.Format("Điểm: {0} \nNội dung điểm: {1}", reader[0], reader[1]);
+                    newT.Text = String.Format("Điểm: {0} \nNội dung điểm: {1} \nMức phạt dưới: {2} \nMức phạt trên: {3}", reader[0], reader[1], reader[3], reader[2]);
                     listBox.Items.Add(newT);
                     
                 }
